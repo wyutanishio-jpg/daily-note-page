@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>すきなところ</title>
+<style>
+  :root {
+    --bg: #F3EFEC;
+    --card: #FBF8F4;
+    --ink: #2B2E3A;
+    --muted: #8B8492;
+    --accent: #B4485E;
+    --border: rgba(43, 46, 58, .13);
+    --shadow: 0 14px 36px rgba(43, 46, 58, .10);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161F;
+      --card: #201F27;
+      --ink: #E8E2D6;
+      --muted: #8E8A98;
+      --accent: #DC8296;
+      --border: rgba(232, 226, 214, .10);
+      --shadow: 0 14px 36px rgba(0, 0, 0, .45);
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100svh;
+  }
+  .wrap {
+    max-width: 26rem;
+    margin-inline: auto;
+    padding: clamp(2.2rem, 9vw, 3.4rem) 1.4rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+  }
+
+  header { text-align: center; }
+  .eyebrow {
+    margin: 0 0 .6rem;
+    font-size: .7rem;
+    letter-spacing: .3em;
+    text-indent: .3em;
+    color: var(--muted);
+  }
+  h1 {
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 600;
+    letter-spacing: .22em;
+    text-indent: .22em;
+    text-wrap: balance;
+  }
+
+  .today-label {
+    margin: 0 0 1rem;
+    text-align: center;
+    font-size: .78rem;
+    letter-spacing: .16em;
+    color: var(--muted);
+    display: flex;
+    justify-content: center;
+    align-items: baseline;
+    gap: .9em;
+  }
+  .today-label .count { color: var(--accent); font-weight: 600; }
+  .today-label .date { font-variant-numeric: tabular-nums; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    padding: 2.2rem 1.7rem;
+    min-height: 10rem;
+    display: grid;
+    place-items: center;
+    animation: settle .7s cubic-bezier(.22, 1, .36, 1) both;
+  }
+  .cover {
+    appearance: none;
+    -webkit-appearance: none;
+    background: none;
+    border: none;
+    font: inherit;
+    color: var(--muted);
+    font-size: .85rem;
+    letter-spacing: .3em;
+    text-indent: .3em;
+    cursor: pointer;
+    padding: 2.5rem 1rem;
+    width: 100%;
+    animation: breathe 2.6s ease-in-out infinite;
+  }
+  .cover:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 4px;
+    border-radius: 4px;
+  }
+  .note {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 500;
+    line-height: 2;
+    letter-spacing: .04em;
+    white-space: pre-wrap;
+    text-wrap: balance;
+    text-align: center;
+  }
+  .note.pop {
+    animation: pop .5s cubic-bezier(.34, 1.56, .64, 1) both;
+  }
+
+  .nav { text-align: center; }
+  .nav a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: .82rem;
+    letter-spacing: .14em;
+    padding: .5em .9em;
+    border-radius: 999px;
+  }
+  .nav a:hover { color: var(--accent); }
+  .nav a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .history-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .history-list li {
+    padding: 1.1rem .2rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: .45rem;
+  }
+  .history-list li:last-child { border-bottom: 1px solid var(--border); }
+  .history-list .meta {
+    display: flex;
+    align-items: baseline;
+    gap: .9em;
+    font-size: .74rem;
+    letter-spacing: .1em;
+  }
+  .history-list .num { color: var(--accent); font-weight: 600; }
+  .history-list .date { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .history-list .txt {
+    font-size: .95rem;
+    line-height: 1.9;
+    white-space: pre-wrap;
+  }
+
+  footer {
+    text-align: center;
+    font-size: .72rem;
+    letter-spacing: .14em;
+    color: var(--muted);
+  }
+
+  @keyframes settle {
+    from { opacity: 0; transform: translateY(10px); }
+  }
+  @keyframes breathe {
+    0%, 100% { opacity: .55; }
+    50% { opacity: 1; }
+  }
+  @keyframes pop {
+    0% { opacity: 0; transform: scale(.6); }
+    60% { opacity: 1; transform: scale(1.05); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .card, .cover, .note.pop { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">まいにちひとつずつ</p>
+    <h1>すきなところ</h1>
+  </header>
+
+  <main>
+    <section id="viewToday">
+      <p class="today-label">
+        <span id="todayText">きょうのぶん</span>
+        <span class="count" id="count"></span>
+        <span class="date" id="todayDate"></span>
+      </p>
+      <div class="card">
+        <button class="cover" id="openBtn" hidden>タップでひらく</button>
+        <p class="note" id="note"></p>
+      </div>
+      <p class="nav" style="margin-top:1.6rem"><a href="#history">これまでのぶん →</a></p>
+    </section>
+
+    <section id="viewHistory" hidden>
+      <p class="nav" style="margin-bottom:1.6rem"><a href="#">← きょうのぶん</a></p>
+      <ul class="history-list" id="historyList"></ul>
+    </section>
+  </main>
+
+  <footer>あたらしいのは毎日0時に</footer>
+</div>
+
+<script>
+  // 開始日（この日に「その一」が届く）。中身は items.json 側にある。
+  const CONFIG = {
+    startDate: [2026, 8, 2],
+    exhaustedMessage: "いまはここまで\nつづきはまた",
+  };
+
+  const CACHE_KEY = "sukina-tokoro-items";
+  let items = [];
+
+  function decodeItems(b64) {
+    const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+    return JSON.parse(new TextDecoder().decode(bytes));
+  }
+
+  // 中身は毎回サーバから取り直す。URLに時刻を付けるのでキャッシュに当たらない。
+  async function fetchItems() {
+    const res = await fetch("items.json?t=" + Date.now(), { cache: "no-store" });
+    if (!res.ok) throw new Error("items.json " + res.status);
+    const data = await res.json();
+    const list = decodeItems(data.itemsB64);
+    try { localStorage.setItem(CACHE_KEY, JSON.stringify(list)); } catch (e) {}
+    return list;
+  }
+
+  // 圏外・オフラインのときは前回の中身で出す
+  function cachedItems() {
+    try {
+      const raw = localStorage.getItem(CACHE_KEY);
+      return raw ? JSON.parse(raw) : [];
+    } catch (e) { return []; }
+  }
+
+  function kanjiNum(n) {
+    const d = ["", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+    if (n <= 0) return "〇";
+    const h = Math.floor(n / 100), t = Math.floor((n % 100) / 10), o = n % 10;
+    let s = "";
+    if (h) s += (h > 1 ? d[h] : "") + "百";
+    if (t) s += (t > 1 ? d[t] : "") + "十";
+    return s + d[o];
+  }
+
+  function dayNumber() {
+    const [y, m, d] = CONFIG.startDate;
+    const now = new Date();
+    const diff = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()) - Date.UTC(y, m - 1, d);
+    return Math.floor(diff / 86400000) + 1;
+  }
+
+  function dateOfItem(n) {
+    const [y, m, d] = CONFIG.startDate;
+    const t = new Date(y, m - 1, d + (n - 1));
+    return t.getFullYear() + "." + (t.getMonth() + 1) + "." + t.getDate();
+  }
+
+  function render() {
+    const n = dayNumber();
+    const note = document.getElementById("note");
+    const count = document.getElementById("count");
+    const todayText = document.getElementById("todayText");
+    const todayDate = document.getElementById("todayDate");
+    const historyList = document.getElementById("historyList");
+    const openBtn = document.getElementById("openBtn");
+
+    note.classList.remove("pop");
+
+    let historyCount;
+    if (items.length === 0) {
+      todayText.textContent = "";
+      count.textContent = "";
+      todayDate.textContent = "";
+      note.textContent = "よみこみちゅう";
+      openBtn.hidden = true;
+      note.hidden = false;
+      historyCount = 0;
+    } else if (n < 1) {
+      todayText.textContent = "はじまりの日までもうすこし";
+      count.textContent = "";
+      todayDate.textContent = "";
+      note.textContent = "たのしみにしていてね";
+      openBtn.hidden = true;
+      note.hidden = false;
+      historyCount = 0;
+    } else if (n > items.length) {
+      todayText.textContent = "きょうのぶん";
+      count.textContent = "";
+      todayDate.textContent = "";
+      note.textContent = CONFIG.exhaustedMessage;
+      openBtn.hidden = true;
+      note.hidden = false;
+      historyCount = items.length;
+    } else {
+      todayText.textContent = "きょうのぶん";
+      count.textContent = "その" + kanjiNum(n);
+      todayDate.textContent = dateOfItem(n);
+      note.textContent = items[n - 1];
+      openBtn.hidden = false;
+      note.hidden = true;
+      historyCount = n - 1;
+    }
+
+    historyList.textContent = "";
+    for (let i = historyCount; i >= 1; i--) {
+      const li = document.createElement("li");
+      const meta = document.createElement("p");
+      meta.className = "meta";
+      meta.style.margin = "0";
+      const num = document.createElement("span");
+      num.className = "num";
+      num.textContent = "その" + kanjiNum(i);
+      const date = document.createElement("span");
+      date.className = "date";
+      date.textContent = dateOfItem(i);
+      meta.append(num, date);
+      const txt = document.createElement("p");
+      txt.className = "txt";
+      txt.style.margin = "0";
+      txt.textContent = items[i - 1];
+      li.append(meta, txt);
+      historyList.append(li);
+    }
+  }
+
+  // 中身を取り直して、変わっていたら描き直す
+  async function refresh() {
+    try {
+      const fresh = await fetchItems();
+      if (JSON.stringify(fresh) !== JSON.stringify(items)) {
+        items = fresh;
+        render();
+      }
+    } catch (e) {
+      if (items.length === 0) {
+        items = cachedItems();
+        render();
+      }
+    }
+  }
+
+  function route() {
+    const isHistory = location.hash === "#history";
+    document.getElementById("viewToday").hidden = isHistory;
+    document.getElementById("viewHistory").hidden = !isHistory;
+    window.scrollTo(0, 0);
+  }
+
+  function scheduleMidnightRefresh() {
+    const now = new Date();
+    const next = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 2);
+    setTimeout(() => { refresh().then(render); scheduleMidnightRefresh(); }, next - now);
+  }
+
+  function chime() {
+    try {
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const t = ctx.currentTime;
+      [[660, 0], [990, .09]].forEach(([freq, dt]) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        gain.gain.setValueAtTime(.0001, t + dt);
+        gain.gain.exponentialRampToValueAtTime(.07, t + dt + .02);
+        gain.gain.exponentialRampToValueAtTime(.0001, t + dt + .5);
+        osc.connect(gain).connect(ctx.destination);
+        osc.start(t + dt);
+        osc.stop(t + dt + .55);
+      });
+    } catch (e) { /* 音が出せない環境では無音のまま開く */ }
+  }
+
+  document.getElementById("openBtn").addEventListener("click", function () {
+    this.hidden = true;
+    const note = document.getElementById("note");
+    note.hidden = false;
+    note.classList.add("pop");
+    chime();
+  });
+
+  window.addEventListener("hashchange", route);
+
+  // タブに戻ってきたときも取り直す（開きっぱなしでも古くならない）
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden) refresh();
+  });
+
+  items = cachedItems();
+  render();
+  route();
+  refresh();
+  scheduleMidnightRefresh();
+</script>
+
+</body>
+</html>
