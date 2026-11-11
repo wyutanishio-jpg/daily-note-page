@@ -21,7 +21,8 @@ def read_items(path):
                 in_list = line.startswith("## リスト")
                 continue
             if in_list and line.startswith("- "):
-                items.append(line[2:].strip())
+                # 原稿に書いたリテラルの \n（2文字）を本当の改行にする
+                items.append(line[2:].strip().replace("\\n", "\n"))
     return items
 
 
